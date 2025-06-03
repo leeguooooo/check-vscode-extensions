@@ -1,191 +1,314 @@
-# VSCode/Cursor 插件检测脚本
+# check-vscode-extensions
 
-> 智能检测多编辑器环境下的插件状态，提供精确的安装指导
+> 🔍 Intelligently detect VSCode/Cursor/WindSurf extension status, support multi-editor environments, provide one-click installation commands
 
+[![npm version](https://img.shields.io/npm/v/check-vscode-extensions.svg)](https://www.npmjs.com/package/check-vscode-extensions)
 [![Node.js](https://img.shields.io/badge/Node.js-v14+-green.svg)](https://nodejs.org/)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Platform](https://img.shields.io/badge/Platform-macOS-lightgrey.svg)](https://www.apple.com/macos/)
+[![Downloads](https://img.shields.io/npm/dm/check-vscode-extensions.svg)](https://www.npmjs.com/package/check-vscode-extensions)
 
-## 🎯 项目简介
+Have you ever encountered these situations in team development:
 
-这是一个智能的编辑器插件检测脚本，专为解决多编辑器环境下的插件管理问题而设计。无论你使用 VSCode、Cursor 还是 WindSurf，无论在编辑器内置终端还是普通终端运行，都能准确检测插件状态并提供安装指导。
+- New team member submits messy code in PR, CI fails
+- ESLint errors locally but they have no idea
+- You remind them to install extensions, they say "I didn't see the recommendation"
 
-### ✨ 核心特性
+👆 If you nodded, this tool is built for you.
 
-- 🔍 **智能编辑器检测** - 自动识别 VSCode、Cursor、WindSurf
-- 📊 **多编辑器支持** - 同时检测所有运行中的编辑器
-- 🛠️ **路径冲突解决** - 智能处理 `code` 命令指向问题
-- 🎨 **友好的用户界面** - 彩色输出，清晰的状态提示
-- ⚡ **精确安装指导** - 提供可直接执行的安装命令
+## ✨ Core Features
 
-## 🚀 快速开始
+- 🔍 **Smart Editor Detection** - Automatically identify VSCode, Cursor, WindSurf
+- 📊 **Multi-Editor Support** - Detect all running editors simultaneously
+- 🛠️ **Path Conflict Resolution** - Intelligently handle `code` command conflicts
+- 🎨 **User-Friendly Interface** - Colorful output with clear status indicators
+- ⚡ **Precise Installation Guide** - Provide directly executable installation commands
+- 📦 **Zero Configuration** - Works out of the box, no complex setup required
+- 🌍 **Internationalization** - Support for English and Chinese
 
-### 运行脚本
+## 🚀 Quick Start
+
+### Method 1: Use npx (Recommended)
 
 ```bash
-node scripts/check-vscode-extensions.cjs
+npx check-vscode-extensions
 ```
 
-### 输出示例
+### Method 2: Global Installation
 
-#### ✅ 所有插件已安装
 ```bash
-✅ Cursor 已安装所有必要插件
-ℹ️ 🔍 检测到 Cursor 正在运行，已检查其插件状态。
+npm install -g check-vscode-extensions
+check-vscode-extensions
 ```
 
-#### ⚠️ 多编辑器检测
-```bash
-ℹ️ 检测到多个编辑器正在运行：Cursor、VSCode
-✅ Cursor 已安装所有必要插件
-ℹ️ ⚠️ VSCode 缺少插件：esbenp.prettier-vscode
+### Method 3: Project Integration
 
-安装命令：
+```bash
+npm install --save-dev check-vscode-extensions
+```
+
+Add scripts to your `package.json`:
+
+```json
+{
+  "scripts": {
+    "check:env": "check-vscode-extensions",
+    "postinstall": "check-vscode-extensions"
+  }
+}
+```
+
+## 📊 Usage Examples
+
+### ✅ All Extensions Installed
+```bash
+$ npx check-vscode-extensions
+✅ All required extensions are installed in Cursor
+ℹ️ 🔍 Detected Cursor is running, checked its extension status.
+```
+
+### ⚠️ Missing Extensions
+```bash
+$ npx check-vscode-extensions
+ℹ️ Current editor: VSCode
+ℹ️ Missing extensions: dbaeumer.vscode-eslint, esbenp.prettier-vscode
+
+💡 Installation commands (copy and run):
+code --install-extension dbaeumer.vscode-eslint
+code --install-extension esbenp.prettier-vscode
+
+Or install all at once:
+code --install-extension dbaeumer.vscode-eslint && code --install-extension esbenp.prettier-vscode
+```
+
+### 🔄 Multi-Editor Detection
+```bash
+$ npx check-vscode-extensions
+ℹ️ Detected multiple editors running: Cursor, VSCode
+✅ All required extensions are installed in Cursor
+ℹ️ ⚠️ VSCode missing extensions: esbenp.prettier-vscode
+
+Installation commands:
 
 VSCode:
 "/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code" --install-extension esbenp.prettier-vscode
 ```
 
-## 📋 检测的插件
+## 📋 Default Detected Extensions
 
-| 插件 ID | 插件名称 | 功能描述 |
-|---------|----------|----------|
-| `dbaeumer.vscode-eslint` | ESLint | JavaScript/TypeScript 代码检查 |
-| `esbenp.prettier-vscode` | Prettier | 代码格式化工具 |
+| Extension ID | Extension Name | Description |
+|--------------|----------------|-------------|
+| `dbaeumer.vscode-eslint` | ESLint | JavaScript/TypeScript code linting |
+| `esbenp.prettier-vscode` | Prettier | Code formatting tool |
 
-## 🔧 自定义配置
+## 🎯 Use Cases
 
-### 修改检测的插件
+### Team Development
+```json
+{
+  "scripts": {
+    "postinstall": "check-vscode-extensions"
+  }
+}
+```
+Automatically check after project clone, **eliminate extension missing issues**.
 
-编辑 `scripts/check-vscode-extensions.cjs` 中的 `requiredExtensions` 数组：
+### CI/CD Integration
+```yaml
+# .github/workflows/check-env.yml
+- name: Check VSCode Extensions
+  run: npx check-vscode-extensions
+```
+
+### Git Hooks
+```bash
+# .husky/pre-commit
+npx check-vscode-extensions
+```
+
+## 🔧 Customization
+
+Currently, the tool detects a fixed list of extensions. For customization:
+
+### Option 1: Fork and Customize
+1. Fork this project
+2. Modify the `requiredExtensions` array in `lib/index.js`
+3. Publish your own npm package
+
+### Option 2: Local Script
+Download the source code to your project and modify directly:
+
+```bash
+# Download script
+curl -o check-extensions.js https://raw.githubusercontent.com/leeguooooo/check-vscode-extensions/main/lib/index.js
+
+# Modify requiredExtensions array
+# Run
+node check-extensions.js
+```
+
+### Common Extension Examples
 
 ```javascript
 const requiredExtensions = [
+  // Basic extensions
   'dbaeumer.vscode-eslint',
   'esbenp.prettier-vscode',
-  'ms-python.python',          // 添加 Python 支持
-  'bradlc.vscode-tailwindcss', // 添加 Tailwind CSS
-  // 更多插件...
+
+  // Frontend development
+  'bradlc.vscode-tailwindcss',
+  'ms-vscode.vscode-typescript-next',
+
+  // Backend development
+  'ms-python.python',
+  'golang.go',
+
+  // Utility extensions
+  'eamodio.gitlens',
+  'ms-vscode.vscode-json'
 ]
 ```
 
-### 添加新编辑器支持
+## 🧠 How It Works
 
-在 `detectActiveEditors` 函数中添加编辑器配置：
+### Smart Detection Flow
 
-```javascript
-const editors = [
-  // 现有编辑器...
-  { 
-    name: 'NewEditor', 
-    processNames: ['NewEditor'], 
-    cmd: 'neweditor', 
-    appPath: '/Applications/NewEditor.app/Contents/Resources/app/bin/code' 
-  }
-]
+```mermaid
+graph TD
+    A[Start Detection] --> B{Check Environment Variables}
+    B -->|CURSOR_TRACE_ID| C[Cursor Environment]
+    B -->|TERM_PROGRAM=vscode| D[VSCode Environment]
+    B -->|No Special Variables| E[Detect Running Processes]
+
+    E --> F{Scan Active Editors}
+    F --> G[VSCode Process]
+    F --> H[Cursor Process]
+    F --> I[WindSurf Process]
+
+    C --> J[Get Extension List]
+    D --> J
+    G --> J
+    H --> J
+    I --> J
+
+    J --> K{Check Required Extensions}
+    K -->|Missing| L[Generate Install Commands]
+    K -->|Complete| M[Show Success Status]
 ```
 
-## 🧠 工作原理
+### Core Technical Features
 
-### 检测流程
+- **🔍 Multi-layer Detection**: Environment Variables → Process Scanning → CLI Verification
+- **🛠️ Path Conflict Resolution**: Intelligently handle `code` command conflicts
+- **📊 Concurrent Editor Support**: Detect multiple running editors simultaneously
+- **⚡ Zero Dependencies**: Uses only Node.js built-in modules
 
-![流程图](docs/flowchart.svg)
+## 📊 Comparison with Other Solutions
 
-### 技术架构
+| Feature | VSCode Recommended Extensions | check-vscode-extensions |
+|---------|------------------------------|------------------------|
+| Auto-detect extension status | ❌ | ✅ |
+| Terminal missing extension alerts | ❌ | ✅ |
+| One-click install commands | ❌ | ✅ |
+| Support Cursor/WindSurf | ❌ | ✅ |
+| Multi-editor detection | ❌ | ✅ |
+| CI/CD integration | ❌ | ✅ |
+| Zero configuration | ❌ | ✅ |
 
-1. **环境变量检测** - 识别编辑器内置终端环境
-2. **进程检测** - 通过 `ps aux` 检测运行中的编辑器
-3. **CLI 路径解析** - 智能处理不同编辑器的命令行工具
-4. **插件状态检查** - 使用 `--list-extensions` 获取插件列表
-5. **结果展示** - 提供清晰的状态报告和安装指导
+## 🛠️ Troubleshooting
 
-### 关键技术点
+### Common Issues
 
-- **环境变量优先级**：`CURSOR_TRACE_ID` > `TERM_PROGRAM` > 进程检测
-- **路径处理**：使用引号包裹路径，处理 macOS 应用路径中的空格
-- **错误处理**：优雅降级，提供有用的错误信息
-- **用户体验**：彩色输出，emoji 图标，清晰的成功/失败状态
-
-## 📖 文档
-
-- 📄 [详细使用指南](docs/vscode-extension-checker.md)
-- 📝 [博客文章模板](docs/blog-post.md)
-- 🎨 [流程图](docs/flowchart.svg)
-
-## 🛠️ 故障排除
-
-### 常见问题
-
-#### 检测不到编辑器
-确保编辑器已安装并启用 Shell 命令：
+#### ❓ Editor Not Detected
+Ensure your editor has CLI commands installed and enabled:
 - **VSCode**: `Cmd+Shift+P` → "Shell Command: Install 'code' command in PATH"
-- **Cursor**: 通常自动安装 `cursor` 命令
+- **Cursor**: Usually installs `cursor` command automatically
 
-#### 路径包含空格错误
-脚本已自动处理路径引号，确保复制完整的命令。
-
-#### 检测到错误的编辑器
-检查系统 `code` 命令指向：
+#### ❓ Wrong Editor Detected
+Check which editor your system `code` command points to:
 ```bash
 which code
+# If it points to Cursor but you want VSCode, reinstall VSCode CLI
 ```
 
-### 调试模式
-
-在脚本开头添加调试信息：
-
-```javascript
-console.log('环境变量:', {
-  TERM_PROGRAM: process.env.TERM_PROGRAM,
-  CURSOR_TRACE_ID: process.env.CURSOR_TRACE_ID,
-  VSCODE_GIT_ASKPASS_MAIN: process.env.VSCODE_GIT_ASKPASS_MAIN
-})
+#### ❓ Permission Errors
+Ensure you have permission to execute editor CLI:
+```bash
+# Test if CLI is available
+code --version
+cursor --version
 ```
 
-## 🔄 版本历史
+### Supported Platforms
 
-### v2.0 (当前版本)
-- ✅ 多编辑器同时检测
-- ✅ 智能路径冲突解决
-- ✅ 改进的环境变量检测
-- ✅ 详细的安装指导
+- ✅ **macOS**: Full support
+- ⚠️ **Windows**: Partial support (path adaptation needed)
+- ⚠️ **Linux**: Partial support (path adaptation needed)
 
-### v1.0
-- ✅ 基础编辑器检测
-- ✅ 插件状态检查
-- ✅ 安装命令生成
+> Currently optimized for macOS, Windows and Linux support is under development
 
-## 🤝 贡献
+## 🌍 Language Support
 
-欢迎提交 Issue 和 Pull Request！
+The tool supports multiple languages:
 
-### 开发指南
+- **English** (default)
+- **中文** (Chinese)
 
-1. Fork 项目
-2. 创建功能分支：`git checkout -b feature/amazing-feature`
-3. 提交更改：`git commit -m 'Add amazing feature'`
-4. 推送分支：`git push origin feature/amazing-feature`
-5. 提交 Pull Request
+Set language via environment variable:
+```bash
+# English (default)
+npx check-vscode-extensions
 
-## 📝 许可证
+# Chinese
+LANG=zh-CN npx check-vscode-extensions
+```
 
-本项目采用 MIT 许可证 - 查看 [LICENSE](LICENSE) 文件了解详情。
+## 🔄 Changelog
 
-## 🙏 致谢
+### v1.0.0 (2024-01-XX)
+- 🎉 Initial release
+- ✅ Support VSCode, Cursor, WindSurf detection
+- ✅ Multi-editor concurrent detection
+- ✅ Smart path conflict resolution
+- ✅ Zero dependencies design
+- 🌍 Internationalization support
 
-感谢所有为多编辑器环境下的开发体验改进做出贡献的开发者们！
+## 🤝 Contributing
+
+We welcome all forms of contributions!
+
+### 🐛 Report Issues
+- Use [Issue Templates](https://github.com/leeguooooo/check-vscode-extensions/issues/new)
+- Provide detailed environment information and error logs
+
+### 💡 Feature Suggestions
+- Discuss in [Discussions](https://github.com/leeguooooo/check-vscode-extensions/discussions)
+- Describe use cases and expected outcomes
+
+### 🔧 Code Contributions
+1. Fork the project
+2. Create feature branch: `git checkout -b feature/amazing-feature`
+3. Commit changes: `git commit -m 'feat: add amazing feature'`
+4. Push branch: `git push origin feature/amazing-feature`
+5. Submit Pull Request
+
+## 📄 License
+
+This project is licensed under the [MIT License](LICENSE).
+
+## 🌟 Star History
+
+If this tool helps you, please give it a ⭐️!
+
+[![Star History Chart](https://api.star-history.com/svg?repos=leeguooooo/check-vscode-extensions&type=Date)](https://star-history.com/#leeguooooo/check-vscode-extensions&Date)
 
 ---
 
-**让工具为我们服务，而不是被工具束缚。智能的脚本让开发更加高效！** 🚀
+**🚀 Automate extension checking, make team collaboration more efficient!**
 
-## 📞 联系方式
+*Made with ❤️ by [leeguoo](https://github.com/leeguooooo)*
 
-如果你有任何问题或建议，欢迎：
-- 提交 [Issue](../../issues)
-- 发起 [Discussion](../../discussions)
-- 通过邮件联系
+## 📖 Documentation
 
----
-
-*Made with ❤️ for developers who use multiple editors*
+- [中文文档](README.zh-CN.md) - Chinese documentation
+- [Usage Guide](USAGE.md) - Detailed usage instructions
+- [Release Guide](RELEASE.md) - How to release new versions

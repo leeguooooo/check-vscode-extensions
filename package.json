@@ -1,0 +1,61 @@
+{
+  "name": "check-vscode-extensions",
+  "version": "0.0.0",
+  "description": "🔍 Intelligently detect VSCode/Cursor/WindSurf extension status, support multi-editor environments, provide one-click installation commands. Supports English and Chinese.",
+  "main": "lib/index.js",
+  "bin": {
+    "check-vscode-extensions": "bin/check-vscode-extensions.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "check:env": "node scripts/check-vscode-extensions.cjs",
+    "build": "node scripts/build.js",
+    "prepublishOnly": "npm run build && node scripts/pre-publish-check.js",
+    "release:patch": "npm run release -- patch",
+    "release:minor": "npm run release -- minor",
+    "release:major": "npm run release -- major",
+    "release": "node scripts/release.js",
+    "publish:npm": "npm publish",
+    "postpublish": "echo '🎉 发布成功！'"
+  },
+  "keywords": [
+    "vscode",
+    "cursor",
+    "windsurf",
+    "extensions",
+    "plugins",
+    "development-tools",
+    "editor",
+    "cli",
+    "automation",
+    "team-development",
+    "internationalization",
+    "i18n",
+    "english",
+    "chinese",
+    "multilingual"
+  ],
+  "author": {
+    "name": "leeguoo",
+    "url": "https://github.com/leeguooooo"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/leeguooooo/check-vscode-extensions.git"
+  },
+  "bugs": {
+    "url": "https://github.com/leeguooooo/check-vscode-extensions/issues"
+  },
+  "homepage": "https://github.com/leeguooooo/check-vscode-extensions#readme",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "files": [
+    "lib/",
+    "bin/",
+    "README.md",
+    "LICENSE"
+  ],
+  "packageManager": "pnpm@10.7.1"
+}

@@ -1,0 +1,48 @@
+# 开发文件
+scripts/
+docs/
+blog-post.md
+USAGE.md
+USAGE-EN.md
+RELEASE.md
+CHANGELOG.md
+README.zh-CN.md
+.vscode/
+.idea/
+
+# 测试文件
+test/
+tests/
+*.test.js
+*.spec.js
+
+# 构建工具
+.github/
+.gitignore
+.eslintrc*
+.prettierrc*
+tsconfig.json
+
+# 日志文件
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# 依赖目录
+node_modules/
+
+# 临时文件
+.tmp/
+.temp/
+*.tmp
+*.temp
+
+# 操作系统文件
+.DS_Store
+Thumbs.db
+
+# 编辑器文件
+*.swp
+*.swo
+*~

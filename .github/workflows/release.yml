@@ -1,0 +1,65 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          registry-url: 'https://registry.npmjs.org'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Run tests
+        run: npm test
+        
+      - name: Build package
+        run: npm run build
+        
+      - name: Publish to npm
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: |
+            ## 🚀 新版本发布
+            
+            查看 [CHANGELOG.md](https://github.com/leeguooooo/check-vscode-extensions/blob/main/CHANGELOG.md) 了解详细更新内容。
+            
+            ### 📦 安装方式
+            
+            ```bash
+            # 直接使用
+            npx check-vscode-extensions
+            
+            # 全局安装
+            npm install -g check-vscode-extensions
+            
+            # 项目集成
+            npm install --save-dev check-vscode-extensions
+            ```
+            
+            ### 🔗 相关链接
+            - [npm 包](https://www.npmjs.com/package/check-vscode-extensions)
+            - [使用文档](https://github.com/leeguooooo/check-vscode-extensions#readme)
+          draft: false
+          prerelease: false
