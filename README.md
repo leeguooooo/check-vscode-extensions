@@ -13,7 +13,10 @@ Have you ever encountered these situations in team development:
 - ESLint errors locally but they have no idea
 - You remind them to install extensions, they say "I didn't see the recommendation"
 
-👆 If you nodded, this tool is built for you.
+
+![CleanShot 2025-06-03 at 11 17 25](https://github.com/user-attachments/assets/384704f1-1dd6-4ac2-a4c3-425ba05b2d92)
+
+
 
 ## ✨ Core Features
 
