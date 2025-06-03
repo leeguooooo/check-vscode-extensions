@@ -1,6 +1,6 @@
 {
   "name": "check-vscode-extensions",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "🔍 Intelligently detect VSCode/Cursor/WindSurf extension status, support multi-editor environments, provide one-click installation commands. Supports English and Chinese.",
   "main": "lib/index.js",
   "bin": {
