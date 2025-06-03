@@ -1,4 +1,4 @@
-# check-vscode-extensions
+# check-vscode-extensions 
 
 > 🔍 Intelligently detect VSCode/Cursor/WindSurf extension status, support multi-editor environments, provide one-click installation commands
 
