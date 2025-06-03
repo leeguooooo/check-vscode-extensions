@@ -13,7 +13,7 @@
 - 本地运行 ESLint 报错，但他自己却完全不知道
 - 你提醒他装插件，他说"我没看到推荐提示"
 
-👆 如果你点头了，那么这个工具就是为你打造的。
+![CleanShot 2025-06-03 at 11 15 08](https://github.com/user-attachments/assets/e907f081-136d-4ffa-8f6d-7022df5f19cb)
 
 ## ✨ 核心特性
 
