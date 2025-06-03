@@ -54,6 +54,7 @@ Add scripts to your `package.json`:
 ```json
 {
   "scripts": {
+    "dev": "npx check-vscode-extensions && xxx dev",
     "check:env": "check-vscode-extensions",
     "postinstall": "check-vscode-extensions"
   }
