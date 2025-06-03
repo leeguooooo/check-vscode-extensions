@@ -7,10 +7,15 @@
     "check-vscode-extensions": "bin/check-vscode-extensions.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "check:env": "node scripts/check-vscode-extensions.cjs",
+    "test": "npm run test:i18n && npm run test:docs",
+    "test:i18n": "node scripts/test-i18n.js",
+    "test:docs": "node scripts/validate-docs.js",
+    "test:chinese": "node scripts/test-chinese-output.js",
+    "check:env": "node lib/index.js",
+    "check:env:zh": "LANG=zh-CN node lib/index.js",
+    "check:env:en": "LANG=en node lib/index.js",
     "build": "node scripts/build.js",
-    "prepublishOnly": "npm run build && node scripts/pre-publish-check.js",
+    "prepublishOnly": "npm run build && npm run test && node scripts/pre-publish-check.js",
     "release:patch": "npm run release -- patch",
     "release:minor": "npm run release -- minor",
     "release:major": "npm run release -- major",

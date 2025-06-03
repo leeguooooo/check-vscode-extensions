@@ -29,6 +29,10 @@
 ### 方式一：使用 npx（推荐）
 
 ```bash
+# 中文界面
+LANG=zh-CN npx check-vscode-extensions
+
+# 英文界面（默认）
 npx check-vscode-extensions
 ```
 
@@ -36,6 +40,11 @@ npx check-vscode-extensions
 
 ```bash
 npm install -g check-vscode-extensions
+
+# 中文界面
+LANG=zh-CN check-vscode-extensions
+
+# 英文界面（默认）
 check-vscode-extensions
 ```
 
@@ -50,8 +59,9 @@ npm install --save-dev check-vscode-extensions
 ```json
 {
   "scripts": {
-    "check:env": "check-vscode-extensions",
-    "postinstall": "check-vscode-extensions"
+    "check:env": "LANG=zh-CN check-vscode-extensions",
+    "check:env:en": "check-vscode-extensions",
+    "postinstall": "LANG=zh-CN check-vscode-extensions"
   }
 }
 ```
@@ -60,14 +70,14 @@ npm install --save-dev check-vscode-extensions
 
 ### ✅ 所有插件已安装
 ```bash
-$ npx check-vscode-extensions
+$ LANG=zh-CN npx check-vscode-extensions
 ✅ Cursor 已安装所有必要插件
 ℹ️ 🔍 检测到 Cursor 正在运行，已检查其插件状态。
 ```
 
 ### ⚠️ 缺少插件时
 ```bash
-$ npx check-vscode-extensions
+$ LANG=zh-CN npx check-vscode-extensions
 ℹ️ 当前编辑器：VSCode
 ℹ️ 缺少插件：dbaeumer.vscode-eslint, esbenp.prettier-vscode
 
@@ -81,7 +91,7 @@ code --install-extension dbaeumer.vscode-eslint && code --install-extension esbe
 
 ### 🔄 多编辑器检测
 ```bash
-$ npx check-vscode-extensions
+$ LANG=zh-CN npx check-vscode-extensions
 ℹ️ 检测到多个编辑器正在运行：Cursor、VSCode
 ✅ Cursor 已安装所有必要插件
 ℹ️ ⚠️ VSCode 缺少插件：esbenp.prettier-vscode
@@ -105,7 +115,7 @@ VSCode:
 ```json
 {
   "scripts": {
-    "postinstall": "check-vscode-extensions"
+    "postinstall": "LANG=zh-CN check-vscode-extensions"
   }
 }
 ```
@@ -115,13 +125,13 @@ VSCode:
 ```yaml
 # .github/workflows/check-env.yml
 - name: Check VSCode Extensions
-  run: npx check-vscode-extensions
+  run: LANG=zh-CN npx check-vscode-extensions
 ```
 
 ### Git Hooks
 ```bash
 # .husky/pre-commit
-npx check-vscode-extensions
+LANG=zh-CN npx check-vscode-extensions
 ```
 
 ## 🔧 自定义配置
@@ -244,6 +254,39 @@ cursor --version
 - ⚠️ **Linux**: 部分支持（需要适配路径）
 
 > 目前主要针对 macOS 优化，Windows 和 Linux 支持正在开发中
+
+## 🌍 语言支持
+
+工具支持多种语言：
+
+- **中文**：`LANG=zh-CN npx check-vscode-extensions`
+- **英文**（默认）：`npx check-vscode-extensions`
+
+### 自动语言检测
+
+工具会自动检测系统语言环境：
+
+```bash
+# 如果系统语言为中文，自动显示中文界面
+export LANG=zh-CN.UTF-8
+npx check-vscode-extensions
+# 输出：✅ VSCode 已安装所有必要插件
+
+# 如果系统语言为英文，自动显示英文界面
+export LANG=en_US.UTF-8
+npx check-vscode-extensions
+# 输出：✅ All required extensions are installed in VSCode
+```
+
+### 手动指定语言
+
+```bash
+# 强制使用中文
+LANG=zh-CN npx check-vscode-extensions
+
+# 强制使用英文
+LANG=en npx check-vscode-extensions
+```
 
 ## 🔄 更新日志
 

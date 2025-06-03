@@ -5,6 +5,10 @@
 ### 1. 直接使用（推荐）
 
 ```bash
+# 中文界面
+LANG=zh-CN npx check-vscode-extensions
+
+# 英文界面（默认）
 npx check-vscode-extensions
 ```
 
@@ -12,6 +16,11 @@ npx check-vscode-extensions
 
 ```bash
 npm install -g check-vscode-extensions
+
+# 中文界面
+LANG=zh-CN check-vscode-extensions
+
+# 英文界面（默认）
 check-vscode-extensions
 ```
 
@@ -26,8 +35,9 @@ npm install --save-dev check-vscode-extensions
 ```json
 {
   "scripts": {
-    "check:env": "check-vscode-extensions",
-    "postinstall": "check-vscode-extensions"
+    "check:env": "LANG=zh-CN check-vscode-extensions",
+    "check:env:en": "check-vscode-extensions",
+    "postinstall": "LANG=zh-CN check-vscode-extensions"
   }
 }
 ```
@@ -39,7 +49,7 @@ npm install --save-dev check-vscode-extensions
 ```json
 {
   "scripts": {
-    "postinstall": "check-vscode-extensions"
+    "postinstall": "LANG=zh-CN check-vscode-extensions"
   }
 }
 ```
@@ -61,7 +71,7 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: '16'
-      - run: npx check-vscode-extensions
+      - run: LANG=zh-CN npx check-vscode-extensions
 ```
 
 ### Git Hooks 集成
@@ -71,6 +81,18 @@ jobs:
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
+LANG=zh-CN npx check-vscode-extensions
+```
+
+## 语言支持
+
+### 中文界面（推荐）
+```bash
+LANG=zh-CN npx check-vscode-extensions
+```
+
+### 英文界面
+```bash
 npx check-vscode-extensions
 ```
 
